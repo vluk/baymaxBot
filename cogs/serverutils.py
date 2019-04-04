@@ -44,7 +44,9 @@ class ServerUtils(commands.Cog):
                     break
             current += 1
         description = last.clean_content
-        if len(last.clean_content) == 0 and len(last.embeds) > 0:
+        if (len(last.clean_content) == 0
+            and len(last.embeds) > 0
+            and last.embeds[0].description != discord.Embed.Empty):
             description += last.embeds[0].description
         embed = discord.Embed(
             description = description,
