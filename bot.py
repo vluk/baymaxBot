@@ -13,8 +13,9 @@ import aiohttp
 prefix = '%'
 help_command = commands.DefaultHelpCommand(dm_help=True)
 bot = commands.Bot(command_prefix=prefix, help_command = help_command)
+session = aiohttp.ClientSession()
 
-async def setup(session):
+def setup():
     bot.add_cog(Administration(bot))
     bot.add_cog(Utility(bot))
     bot.add_cog(ServerUtils(bot))
@@ -22,10 +23,10 @@ async def setup(session):
     bot.add_cog(Dictionary(bot, session))
     bot.add_cog(Neural(bot))
 
+setup()
+
 @bot.event
 async def on_ready():
-    session = aiohttp.ClientSession()
-    await setup(session)
     print("okay three two one lets jam")
 
 config = configparser.ConfigParser()
