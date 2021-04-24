@@ -1,18 +1,23 @@
 import discord
+import pandas
+import random
 import inspect
+import json
 import subprocess
+import pandas
 from discord.ext import commands
-
 class Administration(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     async def bot_exec(self, ctx, str_code):
+        """Takes a series of semicolon seperated statements and evaluates them."""
         results = []
         memory = []
         codes = str_code.strip('` ').split(";")
         python = '```py\n{}\n```'
         env = {
+            'self' : self,
             'bot': self.bot,
             'ctx': ctx,
             'message': ctx.message,
@@ -26,9 +31,11 @@ class Administration(commands.Cog):
 
         env.update(globals())
 
+        # handle multi-statement debugs
         for code in codes:
             try:
                 result = eval(code, env)
+                # async if necessary
                 if inspect.isawaitable(result):
                     result = await result
                 results.append(result)
@@ -38,10 +45,16 @@ class Administration(commands.Cog):
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def logout(self, ctx):
-        await ctx.bot.logout()
+    async def debug(self, ctx, *, str_code : str):
+        """Takes evaluates a series of statements."""
+        await self.bot_exec(ctx, str_code)
 
     @commands.command(hidden=True)
     @commands.is_owner()
-    async def debug(self, ctx, *, str_code : str):
-        await self.bot_exec(ctx, str_code)
+    async def say(self, ctx, *, msg : str):
+        """Has the bot send a message."""
+        await ctx.message.delete()
+        await ctx.send(msg)
+
+def setup(bot):
+    bot.add_cog(Administration(bot))

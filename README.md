@@ -44,5 +44,3 @@ python3 bot.py
 ```
 
 Invite the bot to a [server](https://github.com/jagrosh/MusicBot/wiki/Adding-Your-Bot-To-Your-Server), then type in ?help for a list of the functions the bot has.
-
-

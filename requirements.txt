@@ -4,7 +4,7 @@ astor==0.7.1
 async-timeout==3.0.1
 attrs==19.1.0
 chardet==3.0.4
-discord.py==1.0.0a1792+gdea3ba5
+discord.py==1.2.5
 gast==0.2.2
 grpcio==1.19.0
 h5py==2.9.0
